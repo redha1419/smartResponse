@@ -6,6 +6,6 @@ CREATE TABLE smart.points (
 	lat                  varchar(200),
 	lon                  varchar(200),
 	description          varchar(200),
-	image                bytea
+	image                text
  );
 

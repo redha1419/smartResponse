@@ -17,12 +17,15 @@ export default class GMap extends React.Component {
     this.fetchData = this.fetchData.bind(this);
     this.state = {
       markers:[
+        /*
         {
           latitude: 45.65,
           longitude: -78.90,
           title: 'Foo Place',
-          description: '1234 Foo Drive'
+          description: '1234 Foo Drive',
+          image:""
         }
+        */
       ],
       region: {
         latitude: LATITUDE,
@@ -34,11 +37,12 @@ export default class GMap extends React.Component {
   }
 
   fetchData(){
-    axios.get('http://172.17.204.98:3001/listPoints')
+    axios.get('http://192.168.0.153:3001/listPoints')
     .then(response => {
       console.log("response");
-      //this.setState({markers: response.data.data})
-      //console.log(response);
+      this.setState({markers: response.data.data})
+      //let base64String = window.btoa(String.fromCharCode(...new Uint8Array(response.data.data.image)));
+      //console.log(response.data.data[0].image);
     })
     .catch(error => {
       // handle error
@@ -49,20 +53,25 @@ export default class GMap extends React.Component {
 
 
   componentDidMount(){
+    this.fetchID = setInterval(() => this.fetchData(), 5000);
     this.fetchData();
   }
 
+  componentWillUnmount() {
+    clearInterval(this.fetchID);
+  }
+  
   getMarkers(){
     let toReturn = [];
     for(let i=0; i<this.state.markers.length; i++){
       toReturn.push(
         <MapView.Marker
-          coordinate={{latitude: this.state.markers[i].latitude, longitude: this.state.markers[i].longitude}}
+          coordinate={{latitude: parseFloat(this.state.markers[i].latitude), longitude: parseFloat(this.state.markers[i].longitude)}}
           title={this.state.markers[i].title}
-          description={this.state.markers[i].description}
+          description={ this.state.markers[i].latitude + ", " + this.state.markers[i].longitude}
           key={i}
         >
-          <Image source={require('./assets/icon.png')} style={{height: 35, width:35 }} />
+          <Image source={require("./assets/sample_pic.jpg")} style={{height: 35, width:35 }} />
         </MapView.Marker>
       );
     }

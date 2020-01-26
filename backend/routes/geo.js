@@ -12,8 +12,9 @@ router.get('/listPoints', function(req,res){
          toReply.push({
             latitude: points[i].lat,
             longitude: points[i].lon,
-            title: points[i].event,
-            description: points[i].description
+            title: points[i].event_name,
+            description: points[i].description,
+            image: points[i].image
          })
       }
     res.status(200).json({data: toReply, message: "success"});

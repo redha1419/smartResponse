@@ -1,7 +1,7 @@
 const exec = require('child_process').exec;
 
 function call_python(id) {
-    const cmd = 'python ' + process.cwd() + '/audio/fetchAudio.py ' + id;
+    const cmd = 'python3 ' + process.cwd() + '/audio/fetchAudio.py ' + id;
     exec(cmd, (error, stdout, stderr) => {
         if (error) {
             console.log(stderr.toString())
