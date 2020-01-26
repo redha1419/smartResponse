@@ -5,6 +5,7 @@ CREATE TABLE smart.points (
 	event_name           varchar(200),
 	lat                  varchar(200),
 	lon                  varchar(200),
-	description          varchar(200)
+	description          varchar(200),
+	image                bytea
  );
 

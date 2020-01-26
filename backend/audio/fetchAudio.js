@@ -11,7 +11,7 @@ function call_python(id) {
     });
 }
 
-const fetchAudio = (id) => {
+const fetchAudio = () => {
     call_python(Math.floor(Math.random() * 1000000));
 };
   
