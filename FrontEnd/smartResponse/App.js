@@ -1,11 +1,18 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import {Welcome} from './Welcome.js'
+import 'react-native-gesture-handler';
+import Welcome from './Welcome.js'
+import GMap from './GMap.js'
 
-const MainNavigator = createStackNavigator({
+const MainNavigator = createStackNavigator(
+  {
   Home: {screen: Welcome},
-  //Profile: {screen: ProfileScreen},
-});
+  Map: {screen: GMap},
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
 
 const App = createAppContainer(MainNavigator);
 

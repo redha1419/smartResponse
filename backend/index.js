@@ -25,7 +25,7 @@ app.use('/', geo); //set our routes to the "/" location
 //constantly fetch data
 const audio = require('./audio/fetchAudio');
 const auth = require('./auth').getAccessToken();
-setInterval(() => audio.fetchAudio(), 10000);
+//setInterval(() => audio.fetchAudio(), 10000);
 
 app.listen(process.env.PORT, function() {
     console.log((new Date).getTime())

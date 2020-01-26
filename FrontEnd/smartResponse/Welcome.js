@@ -4,17 +4,16 @@ import { Button } from 'react-native-elements';
 
 export default class Welcome extends React.Component {
   render(){
+    const {navigate} = this.props.navigation;
     return (
       <View style={{}}>
 
       <ImageBackground
-          style = {{width:375, height:870}}
-          resizeMode= 'contain'
-          source = {require('./assets/homeScreen.png')}
-      >
-      <View style ={{paddingTop:725, paddingLeft: 80, width: "80%", height: "100%"}}>
+          style = {{width:'100%', height:'100%'}} source = {require('./assets/homeScreen.png')}>
+      <View style ={{paddingTop:530, paddingLeft: 0, width: "100%", height: "100%"}}>
             <Button 
               title = "Start"
+              onPress={() => navigate('Map')}
             />
         </View>
       </ImageBackground>
