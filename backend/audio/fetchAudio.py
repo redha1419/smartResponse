@@ -4,6 +4,34 @@ import requests
 import json
 import os
 import sys
+import psycopg2
+
+def add_to_db(event, image):
+    
+    try:
+        connection = psycopg2.connect(user = "shahriari",
+                                        password = "password",
+                                        host = "127.0.0.1",
+                                        port = "5432",
+                                        database = "smart",
+                                        schema = "smart")
+
+        cursor = connection.cursor()
+        # Print PostgreSQL Connection properties
+        print ( connection.get_dsn_parameters(),"\n")
+
+        # Print PostgreSQL version
+        query = "INSERT INTO points(event_name, lat, lon, description, image) VALUES (%s,%s,%s, %s, %s)" % (event, '43.256852','-79.900349', 'N/A', image)
+        cursor.execute(query)
+
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while connecting to PostgreSQL", error)
+    finally:
+        #closing database connection.
+            if(connection):
+                cursor.close()
+                connection.close()
+                print("PostgreSQL connection is closed")
 
 def fetch_photo(token):
 
@@ -60,8 +88,7 @@ def fetch_audio_file(n, token):
     open('./temp/sample_'+str(n)+'.flac', 'wb').write(r_3.content)
 
     #once saved, call matts code, get result
-    #if success take a photo
-    #put in database! using psql
+    #if success take a photo and put in database! using psql
 
 def fetch_token():
 
