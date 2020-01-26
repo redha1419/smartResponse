@@ -22,6 +22,12 @@ require('dotenv').config(); //grab our environment variables
 
 app.use('/', geo); //set our routes to the "/" location
 
+//constantly fetch data
+const audio = require('./audio/fetchAudio');
+const auth = require('./auth').getAccessToken();
+setInterval(() => audio.fetchAudio(), 10000);
+
 app.listen(process.env.PORT, function() {
-  console.info("==> 🌎 Peep port %s.", process.env.PORT);
+    console.log((new Date).getTime())
+    console.info("==> 🌎 Peep port %s.", process.env.PORT);
 })
