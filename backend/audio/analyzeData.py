@@ -21,16 +21,16 @@ from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Convolution2D, MaxPooling2D
 from keras.optimizers import Adam
 from keras.utils import np_utils
-from sklearn import metrics 
-
+from sklearn import metrics
 from numpy import loadtxt
 from keras.models import load_model'''
- 
+#MR
+
 
 #for finding the current dir
 DIR = os.getcwd()
 
-#the sampling rate we are taking our data at, can be adjusted for tuning 
+#the sampling rate we are taking our data at, can be adjusted for tuning
 SAMPLERATE = 11025
 
 #ambient energy of the node with normal traffic
@@ -69,7 +69,7 @@ def get_colours(image, number_of_colors, show_chart):
         plt.figure(figsize = (8, 6))
         plt.pie(counts.values(), labels = hex_colors, colors = hex_colors)
         plt.show()
-    
+
     return hex_colors
 
 def get_mel_spectrogram_data(audio_file):
@@ -115,7 +115,7 @@ def get_flac_files(directory):
 
 #find the abs magnitude of the frequency buckets in FFT
 def get_fft_magnitude(audio_file):
-    try: 
+    try:
         sig, fs = librosa.load(audio_file, SAMPLERATE)
         sig = scipy.signal.medfilt(sig)
     except Exception as e:
@@ -130,7 +130,7 @@ def get_fft_magnitude(audio_file):
 #find the amount of energy in the audio sample in the higher frequency range
 def get_sample_energy(audio_file):
     #get the signal and filter
-    try: 
+    try:
         sig, fs = librosa.load(audio_file, SAMPLERATE)
         sos = scipy.signal.butter(10, 200, 'hp', fs=SAMPLERATE/2, output='sos')
         sig = scipy.signal.sosfilt(sos, sig)
@@ -142,8 +142,8 @@ def get_sample_energy(audio_file):
     yf = scipy.fft(sig)
     #absolute values of the data
     yf_abs = np.abs(yf)
-    
-    #computing the energy in the audio sample 
+
+    #computing the energy in the audio sample
 
     N = SAMPLERATE/2
     #remove the lower frequencies
@@ -153,7 +153,7 @@ def get_sample_energy(audio_file):
     square_sum = 0
     for y in yf_abs:
         square_sum += y*y
-    
+
     energy = square_sum/(3*N/4)
     return energy
 
@@ -164,14 +164,14 @@ def grab_incident(file_name):
         return "Gun shot"
     else:
         return None
-    
+
 def extract_feature(file_name):
     #find the features for the models
     try:
-        sig, fs = librosa.load(file_name, SAMPLERATE) 
+        sig, fs = librosa.load(file_name, SAMPLERATE)
         mfccs = librosa.feature.mfcc(y=sig, sr=fs, n_mfcc=40)
         mfccsscaled = np.mean(mfccs.T,axis=0)
-        
+
     except Exception as e:
         print('Error encountered while parsing file ')
         return None
@@ -206,15 +206,15 @@ def determine_if_event(audio_file):
 '''
 def print_prediction(file_name):
     model = load_model('model.hdf5')
-    
-    prediction_feature = extract_feature(file_name) 
-    predicted_vector = model.predict_classes(prediction_feature)
-    predicted_class = le.inverse_transform(predicted_vector) 
-    print("The predicted class is:", predicted_class[0], '\n') 
 
-    predicted_proba_vector = model.predict_proba(prediction_feature) 
+    prediction_feature = extract_feature(file_name)
+    predicted_vector = model.predict_classes(prediction_feature)
+    predicted_class = le.inverse_transform(predicted_vector)
+    print("The predicted class is:", predicted_class[0], '\n')
+
+    predicted_proba_vector = model.predict_proba(prediction_feature)
     predicted_proba = predicted_proba_vector[0]
-    for i in range(len(predicted_proba)): 
+    for i in range(len(predicted_proba)):
         category = le.inverse_transform(np.array([i]))
         print(category[0], "\t\t : ", format(predicted_proba[i], '.32f') )
 '''
@@ -227,7 +227,7 @@ def display_fft(audio_file):
     #sig = scipy.signal.medfilt(sig)
     sos = scipy.signal.butter(10, 200, 'hp', fs=SAMPLERATE/2, output='sos')
     sig = scipy.signal.sosfilt(sos, sig)
-   
+
     n = len(sig)
     T = 1/fs
     yf = scipy.fft(sig)
