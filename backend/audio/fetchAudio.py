@@ -5,11 +5,12 @@ import json
 import os
 import sys
 import psycopg2
+#
 
 from analyzeData import determine_if_event
 
 def add_to_db(event, image):
-    
+
     try:
         connection = psycopg2.connect(user = "shahriari",
                                         password = "password",
@@ -44,9 +45,9 @@ def fetch_photo(token):
     URL_1 = "https://hamilton.cityiq.io/api/v2/media/ondemand/assets/"+image_asset+"/media?mediaType=IMAGE&timestamp="+ str(int(time_stamp))
 
     HEADERS = {'Authorization':'Bearer '+token, 'Predix-Zone-Id': 'HAMILTON-IE-IMAGE'}
-    r_1 = requests.get(URL_1, headers=HEADERS) 
-    data_1 = r_1.json() 
-    
+    r_1 = requests.get(URL_1, headers=HEADERS)
+    data_1 = r_1.json()
+
     time.sleep(2)
 
     #for step 2
@@ -81,8 +82,8 @@ def fetch_audio_file(n, token):
         time_stamp = int(time.time()*1000) - 10000
         URL_1 = "https://hamilton.cityiq.io/api/v2/media/ondemand/assets/"+audio_asset+"/media?mediaType=AUDIO&timestamp=" + str(int(time_stamp))
         HEADERS = {'Authorization':'Bearer '+token, 'Predix-Zone-Id': 'HAMILTON-IE-AUDIO'}
-        r_1 = requests.get(URL_1, headers = HEADERS) 
-        data_1 = r_1.json() 
+        r_1 = requests.get(URL_1, headers = HEADERS)
+        data_1 = r_1.json()
 
         time.sleep(2)
 
@@ -97,7 +98,7 @@ def fetch_audio_file(n, token):
         #for step 3
         #print data_2['listOfEntries']['content'][0]
         URL_3 = str(data_2['listOfEntries']['content'][0]['url'])
-        
+
 
         r_3 = requests.get(URL_3, headers=HEADERS)
         open('./temp/sample_'+str(n)+'.flac', 'wb').write(r_3.content)
@@ -105,7 +106,7 @@ def fetch_audio_file(n, token):
         event = determine_if_event('./temp/sample_'+str(n)+'.flac')
         if(event != None):
             add_to_db(event, fetch_photo(token)) # takes photo at this point in time
-        
+
         return
 
 def fetch_token():
@@ -127,7 +128,7 @@ def main(name):
     #create an audio file directory
     path = './temp'
     print(name)
-    try: 
+    try:
         os.makedirs(path)
     except OSError:
         if not os.path.isdir(path):
