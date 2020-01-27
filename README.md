@@ -11,7 +11,7 @@ We built this system using many technologies.
 
 Front-end app: React Native and Apple Maps
 
-Back-end: Node.js + express, Python, Math and machine learning libraries such as librosa, openCV, matplolib, scikit, tensorFlow; and finally PostgreSQL for the database
+Back-end: Node.js + express, Python, Math and machine learning/signal processing libraries such as librosa, openCV, matplolib, scikit, tensorFlow; and finally PostgreSQL for the database
 
 API: We used the cityIQ api to get live audio and images of Hamilton.
 
